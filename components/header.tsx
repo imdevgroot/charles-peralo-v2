@@ -1,10 +1,8 @@
-"use client"
+﻿"use client"
 
 import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import { ThemeToggle } from "@/components/theme-toggle"
 import { useSearch } from "@/contexts/search-context"
 import { Menu, X, Search, ChevronDown } from "lucide-react"
 
@@ -13,231 +11,210 @@ export function Header() {
   const [isArticlesOpen, setIsArticlesOpen] = useState(false)
   const { openSearch } = useSearch()
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
-
-  const toggleArticles = () => {
-    setIsArticlesOpen(!isArticlesOpen)
-  }
-
   return (
-    <header className="bg-white/95 backdrop-blur-md border-b border-slate-200 fixed top-0 left-0 right-0 z-50 transition-all duration-200">
-      <div className="w-full px-2 sm:px-6">
-        <div className="flex items-center h-20 sm:h-24">
+    <header
+      style={{
+        background: "rgba(13,13,20,0.92)",
+        backdropFilter: "blur(16px)",
+        borderBottom: "1px solid var(--border)",
+      }}
+      className="fixed top-0 left-0 right-0 z-50"
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2 hover-lift transition-transform duration-200 flex-shrink-0">
-            <div className="relative w-10 h-10 sm:w-12 sm:h-12 rounded-full overflow-hidden shadow-soft">
-              <Image src="/images/charles-peralo.png" alt="Charles Peralo - Political Commentator" fill className="object-cover" priority />
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="relative w-9 h-9 rounded-full overflow-hidden ring-2 ring-blue-500/30 group-hover:ring-blue-500/60 transition-all">
+              <Image src="/images/charles-peralo.png" alt="Charles Peralo" fill className="object-cover" priority />
             </div>
             <div className="hidden sm:block">
-              <h1 className="text-heading text-xl sm:text-2xl text-slate-900">Charles Peralo</h1>
-              <p className="text-sm text-slate-600 font-medium">Daily Political Insights</p>
+              <div
+                className="font-display text-base leading-none"
+                style={{ color: "var(--text-primary)" }}
+              >
+                Charles Peralo
+              </div>
+              <div className="text-xs mt-0.5" style={{ color: "var(--text-muted)" }}>
+                Daily Insights
+              </div>
             </div>
           </Link>
 
-          {/* Mobile Center Content */}
-          <div className="block sm:hidden absolute left-1/2 transform -translate-x-1/2 text-center">
-            <h1 className="text-base font-bold text-slate-900">Daily Political Insights</h1>
-            <p className="text-xs text-slate-600">Stay Informed. Stay Engaged.</p>
+          {/* Mobile logo center */}
+          <div className="sm:hidden absolute left-1/2 -translate-x-1/2 font-display text-sm" style={{ color: "var(--text-primary)" }}>
+            Charles Peralo
           </div>
 
-          {/* Spacer for mobile layout */}
-          <div className="flex-1 sm:hidden"></div>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-6">
-            <Link href="/" className="text-slate-700 hover:text-red-600 font-semibold transition-all duration-200 px-3 py-2 rounded-lg hover:bg-red-50 focus-visible">
-              Home
-            </Link>
-
-            {/* Articles Dropdown */}
-            <div className="relative">
+          {/* Desktop Nav */}
+          <nav className="hidden lg:flex items-center gap-1">
+            {[
+              { href: "/", label: "Home" },
+              { href: "/about", label: "About" },
+            ].map((item) => (
               <Link
-                href="/articles"
-                className="flex items-center text-slate-700 hover:text-red-600 font-semibold transition-all duration-200 px-3 py-2 rounded-lg hover:bg-red-50 focus-visible"
-                onMouseEnter={() => setIsArticlesOpen(true)}
-                onMouseLeave={() => setIsArticlesOpen(false)}
+                key={item.href}
+                href={item.href}
+                className="px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200"
+                style={{ color: "var(--text-secondary)" }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text-primary)")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-secondary)")}
+              >
+                {item.label}
+              </Link>
+            ))}
+
+            {/* Articles dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={() => setIsArticlesOpen(true)}
+              onMouseLeave={() => setIsArticlesOpen(false)}
+            >
+              <button
+                className="flex items-center gap-1 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200"
+                style={{ color: "var(--text-secondary)" }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text-primary)")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-secondary)")}
               >
                 Articles
-                <ChevronDown className={`w-4 h-4 ml-1 transition-transform duration-200 ${isArticlesOpen ? 'rotate-180' : ''}`} />
-              </Link>
-
+                <ChevronDown
+                  className={`w-3.5 h-3.5 transition-transform duration-200 ${isArticlesOpen ? "rotate-180" : ""}`}
+                />
+              </button>
               {isArticlesOpen && (
                 <div
-                  className="absolute top-full left-0 mt-2 w-52 bg-white rounded-xl shadow-strong border border-slate-200 py-3 z-50 animate-fade-in"
-                  onMouseEnter={() => setIsArticlesOpen(true)}
-                  onMouseLeave={() => setIsArticlesOpen(false)}
+                  className="absolute top-full left-0 mt-2 w-48 rounded-xl py-2 z-50 fade-in"
+                  style={{
+                    background: "var(--bg-elevated)",
+                    border: "1px solid var(--border-bright)",
+                    boxShadow: "0 20px 40px rgba(0,0,0,0.5)",
+                  }}
                 >
-                  <Link
-                    href="/articles"
-                    className="block px-4 py-3 text-slate-700 hover:bg-red-50 hover:text-red-600 transition-colors font-medium"
-                  >
-                    All Articles
-                  </Link>
-                  <div className="border-t border-slate-100 my-2"></div>
-                  <Link
-                    href="/category/politics"
-                    className="flex items-center px-4 py-2 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-red-600 dark:hover:text-red-400 transition-colors"
-                  >
-                    Politics
-                  </Link>
-                  <Link
-                    href="/category/business"
-                    className="flex items-center px-4 py-2 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-red-600 dark:hover:text-red-400 transition-colors"
-                  >
-                    Business
-                  </Link>
-                  <Link
-                    href="/category/culture"
-                    className="flex items-center px-4 py-2 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-red-600 dark:hover:text-red-400 transition-colors"
-                  >
-                    Culture
-                  </Link>
-                  <Link
-                    href="/category/personal"
-                    className="flex items-center px-4 py-2 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-red-600 dark:hover:text-red-400 transition-colors"
-                  >
-                    Personal
-                  </Link>
+                  {[
+                    { href: "/articles", label: "All Articles" },
+                    { href: "/category/politics", label: "Politics" },
+                    { href: "/category/business", label: "Business" },
+                    { href: "/category/culture", label: "Culture" },
+                    { href: "/category/personal", label: "Personal" },
+                  ].map((item, i) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className={`block px-4 py-2.5 text-sm transition-all duration-150 ${i === 0 ? "font-semibold mb-1 border-b" : ""}`}
+                      style={{
+                        color: "var(--text-secondary)",
+                        borderColor: i === 0 ? "var(--border)" : "transparent",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.color = "var(--text-primary)"
+                        e.currentTarget.style.background = "var(--bg-card)"
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.color = "var(--text-secondary)"
+                        e.currentTarget.style.background = "transparent"
+                      }}
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
                 </div>
               )}
             </div>
 
-            <Link href="/quizacles" className="text-slate-700 hover:text-purple-600 font-semibold transition-all duration-200 px-3 py-2 rounded-lg hover:bg-purple-50 focus-visible">
+            <Link
+              href="/quizacles"
+              className="px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200"
+              style={{ color: "var(--text-secondary)" }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text-primary)")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-secondary)")}
+            >
               Quizacles
-            </Link>
-            <Link href="/search" className="text-slate-700 hover:text-blue-600 font-semibold transition-all duration-200 px-3 py-2 rounded-lg hover:bg-blue-50 focus-visible">
-              Search
-            </Link>
-            <Link href="/about" className="text-slate-700 hover:text-slate-900 font-semibold transition-all duration-200 px-3 py-2 rounded-lg hover:bg-slate-50 focus-visible">
-              About
             </Link>
           </nav>
 
           {/* Desktop Actions */}
-          <div className="hidden lg:flex items-center space-x-3">
-            <Button 
-              variant="ghost" 
-              size="sm" 
+          <div className="hidden lg:flex items-center gap-3">
+            <button
               onClick={openSearch}
-              className="p-3 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all duration-200 focus-visible touch-target group"
-              aria-label="Search articles (Ctrl+K)"
-              title="Search (Ctrl+K)"
+              className="p-2.5 rounded-lg transition-all duration-200 touch"
+              style={{ color: "var(--text-muted)", border: "1px solid var(--border)" }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = "var(--border-bright)"
+                e.currentTarget.style.color = "var(--text-primary)"
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "var(--border)"
+                e.currentTarget.style.color = "var(--text-muted)"
+              }}
+              aria-label="Search"
             >
-              <Search className="w-5 h-5 text-slate-600 dark:text-slate-400" />
-              <span className="hidden xl:block ml-2 text-xs text-slate-500 dark:text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity">
-                ⌘K
-              </span>
-            </Button>
-            <ThemeToggle />
-            <Link href="/subscribe">
-              <Button className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-xl font-semibold shadow-medium hover:shadow-strong transition-all duration-200 hover-lift touch-target">
-                Subscribe Free
-              </Button>
+              <Search className="w-4 h-4" />
+            </button>
+            <Link
+              href="/subscribe"
+              className="px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 touch"
+              style={{ background: "var(--accent)", color: "#fff" }}
+              onMouseEnter={(e) => (e.currentTarget.style.background = "var(--accent-hover)")}
+              onMouseLeave={(e) => (e.currentTarget.style.background = "var(--accent)")}
+            >
+              Subscribe Free
             </Link>
           </div>
 
-          {/* Mobile Actions */}
+          {/* Mobile actions */}
           <div className="lg:hidden flex items-center gap-2">
-            <ThemeToggle />
-            <Button variant="ghost" size="sm" className="p-2 hover:bg-slate-100 rounded-xl transition-all duration-200 touch-target flex-shrink-0" onClick={toggleMenu}>
-              {isMenuOpen ? <X className="w-5 h-5 text-slate-600" /> : <Menu className="w-5 h-5 text-slate-600" />}
-            </Button>
+            <button
+              onClick={openSearch}
+              className="p-2 rounded-lg touch"
+              style={{ color: "var(--text-muted)" }}
+              aria-label="Search"
+            >
+              <Search className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="p-2 rounded-lg touch"
+              style={{ color: "var(--text-muted)" }}
+            >
+              {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
           </div>
         </div>
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="lg:hidden border-t border-slate-200 dark:border-slate-700 py-6 animate-fade-in bg-white dark:bg-slate-900">
-            <nav className="flex flex-col space-y-2">
-              <Link
-                href="/"
-                className="text-slate-700 dark:text-slate-300 hover:text-red-600 dark:hover:text-red-400 font-semibold transition-all duration-200 px-4 py-3 rounded-lg hover:bg-red-50 dark:hover:bg-red-950 touch-target"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Home
-              </Link>
-
-              {/* Mobile Articles Section */}
-              <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-2">
+          <div
+            className="lg:hidden py-6 fade-in"
+            style={{ borderTop: "1px solid var(--border)" }}
+          >
+            <nav className="flex flex-col gap-1">
+              {[
+                { href: "/", label: "Home" },
+                { href: "/articles", label: "All Articles" },
+                { href: "/category/politics", label: "Politics" },
+                { href: "/category/business", label: "Business" },
+                { href: "/category/culture", label: "Culture" },
+                { href: "/category/personal", label: "Personal" },
+                { href: "/quizacles", label: "Quizacles" },
+                { href: "/about", label: "About" },
+              ].map((item) => (
                 <Link
-                  href="/articles"
-                  className="text-slate-700 dark:text-slate-300 hover:text-red-600 dark:hover:text-red-400 font-semibold transition-all duration-200 px-4 py-3 rounded-lg hover:bg-white dark:hover:bg-slate-700 block touch-target"
+                  key={item.href}
+                  href={item.href}
                   onClick={() => setIsMenuOpen(false)}
+                  className="px-4 py-3 rounded-lg text-sm font-medium touch"
+                  style={{ color: "var(--text-secondary)" }}
                 >
-                  All Articles
+                  {item.label}
                 </Link>
-                <div className="ml-2 mt-1 space-y-1">
-                  <Link
-                    href="/category/politics"
-                    className="text-slate-600 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 transition-colors px-4 py-2 block rounded-lg hover:bg-white dark:hover:bg-slate-700 touch-target"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Politics
-                  </Link>
-                  <Link
-                    href="/category/business"
-                    className="text-slate-600 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 transition-colors px-4 py-2 block rounded-lg hover:bg-white dark:hover:bg-slate-700 touch-target"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Business
-                  </Link>
-                  <Link
-                    href="/category/culture"
-                    className="text-slate-600 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 transition-colors px-4 py-2 block rounded-lg hover:bg-white dark:hover:bg-slate-700 touch-target"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Culture
-                  </Link>
-                  <Link
-                    href="/category/personal"
-                    className="text-slate-600 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 transition-colors px-4 py-2 block rounded-lg hover:bg-white dark:hover:bg-slate-700 touch-target"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Personal
-                  </Link>
-                </div>
-              </div>
-
-              <Link
-                href="/quizacles"
-                className="text-slate-700 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 font-semibold transition-all duration-200 px-4 py-3 rounded-lg hover:bg-purple-50 dark:hover:bg-purple-950 touch-target"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Quizacles
-              </Link>
-              <Link
-                href="/search"
-                className="text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-semibold transition-all duration-200 px-4 py-3 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-950 touch-target"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Search
-              </Link>
-              <Link
-                href="/about"
-                className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-semibold transition-all duration-200 px-4 py-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 touch-target"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                About
-              </Link>
-
-              <div className="flex flex-col gap-3 px-2 pt-6 border-t border-slate-200 dark:border-slate-700 mt-4">
-                <Button 
-                  variant="ghost" 
-                  onClick={() => {
-                    openSearch()
-                    setIsMenuOpen(false)
-                  }}
-                  className="justify-start px-4 py-3 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all duration-200 touch-target"
+              ))}
+              <div className="mt-4 pt-4" style={{ borderTop: "1px solid var(--border)" }}>
+                <Link
+                  href="/subscribe"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block w-full text-center px-4 py-3 rounded-lg text-sm font-semibold touch"
+                  style={{ background: "var(--accent)", color: "#fff" }}
                 >
-                  <Search className="w-5 h-5 mr-2 text-slate-600 dark:text-slate-400" />
-                  Search Articles
-                </Button>
-                <Link href="/subscribe" onClick={() => setIsMenuOpen(false)}>
-                  <Button className="bg-red-600 hover:bg-red-700 text-white px-6 py-4 rounded-xl font-semibold w-full shadow-medium hover:shadow-strong transition-all duration-200 touch-target">
-                    Subscribe Free
-                  </Button>
+                  Subscribe Free
                 </Link>
               </div>
             </nav>

@@ -1,12 +1,10 @@
-"use client"
+﻿"use client"
 
 import { useState, FormEvent, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Check, Loader2, AlertCircle } from "lucide-react"
 
 interface NewsletterFormProps {
-  variant?: "hero" | "cta"
+  variant?: "hero" | "cta" | "footer"
   className?: string
 }
 
@@ -17,114 +15,101 @@ export function NewsletterForm({ variant = "hero", className = "" }: NewsletterF
   const [error, setError] = useState("")
   const [mounted, setMounted] = useState(false)
 
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+  useEffect(() => { setMounted(true) }, [])
 
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return emailRegex.test(email)
-  }
+  const validateEmail = (val: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setError("")
-
-    if (!email) {
-      setError("Email address is required")
-      return
-    }
-
-    if (!validateEmail(email)) {
-      setError("Please enter a valid email address")
-      return
-    }
-
+    if (!email) { setError("Email address is required"); return }
+    if (!validateEmail(email)) { setError("Please enter a valid email address"); return }
     setIsLoading(true)
-    
-    // Simulate API call
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500))
+      await new Promise((resolve) => setTimeout(resolve, 1500))
       setIsSubmitted(true)
       setEmail("")
-    } catch (err) {
+    } catch {
       setError("Something went wrong. Please try again.")
     } finally {
       setIsLoading(false)
     }
   }
 
-  if (!mounted) {
-    return <div className={`${className}`} suppressHydrationWarning />
-  }
+  if (!mounted) return <div className={className} suppressHydrationWarning />
 
   if (isSubmitted) {
     return (
-      <div className={`text-center animate-fade-in ${className}`}>
-        <div className="bg-green-50 border-2 border-green-200 rounded-2xl p-8">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Check className="w-8 h-8 text-green-600" />
+      <div className={`text-center fade-in ${className}`}>
+        <div
+          className="rounded-2xl p-8 flex flex-col items-center gap-3"
+          style={{ background: "rgba(59,130,246,0.1)", border: "1px solid rgba(59,130,246,0.3)" }}
+        >
+          <div
+            className="w-14 h-14 rounded-full flex items-center justify-center"
+            style={{ background: "rgba(59,130,246,0.2)" }}
+          >
+            <Check className="w-7 h-7 text-blue-400" />
           </div>
-          <h3 className="text-heading text-xl text-slate-900 mb-2">You're all set!</h3>
-          <p className="text-body text-slate-600">
-            Welcome to the newsletter. Check your inbox for a confirmation email.
-          </p>
+          <div>
+            <div className="font-display text-lg" style={{ color: "var(--text-primary)" }}>
+              You are in!
+            </div>
+            <div className="text-sm mt-1" style={{ color: "var(--text-secondary)" }}>
+              Check your inbox for a confirmation email.
+            </div>
+          </div>
         </div>
       </div>
     )
   }
 
-  const isHero = variant === "hero"
-
   return (
-    <form onSubmit={handleSubmit} className={`space-y-4 ${className}`}>
-      <div className="flex flex-col sm:flex-row gap-4">
+    <form onSubmit={handleSubmit} className={`${className}`}>
+      <div className="flex flex-col sm:flex-row gap-3">
         <div className="flex-1 relative">
-          <Input
+          <input
             type="email"
             value={email}
-            onChange={(e) => {
-              setEmail(e.target.value)
-              if (error) setError("")
-            }}
+            onChange={(e) => { setEmail(e.target.value); if (error) setError("") }}
             placeholder="Enter your email address"
-            className={`${
-              isHero 
-                ? "h-14 rounded-xl border-2 border-slate-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 text-lg" 
-                : "h-14 rounded-xl border-2 border-white/30 bg-white/20 text-white placeholder:text-red-200 focus:bg-white focus:text-slate-900 focus:border-white text-lg backdrop-blur-sm"
-            } focus-visible transition-all duration-200`}
             disabled={isLoading}
+            className="w-full h-13 px-4 py-3 rounded-xl text-sm outline-none transition-all duration-200"
+            style={{
+              background: "var(--bg-elevated)",
+              border: error ? "1px solid rgba(239,68,68,0.5)" : "1px solid var(--border-bright)",
+              color: "var(--text-primary)",
+            }}
+            onFocus={(e) => (e.currentTarget.style.borderColor = "var(--accent)")}
+            onBlur={(e) => (e.currentTarget.style.borderColor = error ? "rgba(239,68,68,0.5)" : "var(--border-bright)")}
           />
           {error && (
-            <div className="absolute top-full left-0 mt-2 flex items-center gap-2 text-red-600 text-sm animate-fade-in">
-              <AlertCircle className="w-4 h-4" />
+            <div className="flex items-center gap-1.5 mt-2 text-xs fade-in" style={{ color: "#fca5a5" }}>
+              <AlertCircle className="w-3.5 h-3.5" />
               {error}
             </div>
           )}
         </div>
-        <Button
+        <button
           type="submit"
           disabled={isLoading}
-          className={`${
-            isHero
-              ? "bg-red-600 hover:bg-red-700 text-white"
-              : "bg-white text-red-600 hover:bg-red-50"
-          } px-8 h-14 rounded-xl font-semibold shadow-medium hover:shadow-strong transition-all duration-200 hover-lift touch-target whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed`}
+          className="px-6 py-3 rounded-xl font-semibold text-sm transition-all duration-200 touch whitespace-nowrap disabled:opacity-50"
+          style={{ background: "var(--accent)", color: "#fff" }}
+          onMouseEnter={(e) => { if (!isLoading) e.currentTarget.style.background = "var(--accent-hover)" }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = "var(--accent)" }}
         >
           {isLoading ? (
-            <>
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+            <span className="flex items-center gap-2">
+              <Loader2 className="w-4 h-4 animate-spin" />
               Subscribing...
-            </>
+            </span>
           ) : (
-            isHero ? "Get Free Updates" : "Start Reading Free"
+            "Get Free Updates"
           )}
-        </Button>
+        </button>
       </div>
-      <p className={`text-sm text-center ${error ? 'mt-8' : ''} ${
-        isHero ? "text-slate-500" : "text-red-200"
-      }`}>
-        ✓ Free forever ✓ {isHero ? "No spam" : "Daily insights"} ✓ Unsubscribe anytime
+      <p className="text-xs mt-3 text-center" style={{ color: "var(--text-muted)" }}>
+        Free forever. No spam. Unsubscribe anytime.
       </p>
     </form>
   )

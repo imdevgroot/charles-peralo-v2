@@ -1,248 +1,140 @@
-"use client"
-
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Calendar, Clock, Search, TrendingUp } from "lucide-react"
-import Image from "next/image"
-import Link from "next/link"
-import type { ArticleMetadata } from "@/lib/articles"
+﻿import Link from "next/link"
+import { ArrowRight } from "lucide-react"
+import { getAllArticles } from "@/lib/articles"
 
 export default function ArticlesPage() {
-  const [visibleArticles, setVisibleArticles] = useState(9)
-  const [selectedCategory, setSelectedCategory] = useState("All")
-  const [searchTerm, setSearchTerm] = useState("")
-  const [allArticles, setAllArticles] = useState<ArticleMetadata[]>([])
-  const [loading, setLoading] = useState(true)
-
+  const articles = getAllArticles()
   const categories = ["All", "Politics", "Business", "Culture", "Personal"]
 
-  useEffect(() => {
-    async function fetchArticles() {
-      try {
-        const response = await fetch('/api/articles')
-        const articles = await response.json()
-        setAllArticles(articles)
-      } catch (error) {
-        console.error('Failed to fetch articles:', error)
-        // Fallback to empty array
-        setAllArticles([])
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchArticles()
-  }, [])
-
-  // Filter articles based on category and search term
-  const filteredArticles = allArticles.filter((article) => {
-    const matchesCategory = selectedCategory === "All" || article.category === selectedCategory
-    const matchesSearch =
-      article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      article.excerpt.toLowerCase().includes(searchTerm.toLowerCase())
-    return matchesCategory && matchesSearch
-  })
-
-  const displayedArticles = filteredArticles.slice(0, visibleArticles)
-  const hasMoreArticles = visibleArticles < filteredArticles.length
-
-  const loadMoreArticles = () => {
-    setVisibleArticles((prev) => prev + 6)
-  }
-
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-900">
+    <div style={{ background: "var(--bg)" }}>
       {/* Header */}
-      <section className="bg-gradient-to-br from-slate-50 via-white to-blue-50/30 dark:from-slate-800 dark:via-slate-900 dark:to-blue-950/30 py-12 sm:py-20 overflow-hidden">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-12 sm:mb-16">
-            <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium mb-4 sm:mb-6">
-              <TrendingUp className="w-3 sm:w-4 h-3 sm:h-4" />
-              All Articles
-            </div>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-slate-900 dark:text-white mb-4 sm:mb-6 leading-tight text-responsive">
-              Latest{" "}
-              <span className="bg-gradient-to-r from-blue-600 to-blue-500 bg-clip-text text-transparent">Articles</span>
-            </h1>
-            <p className="text-lg sm:text-xl text-slate-600 dark:text-slate-300 mb-8 sm:mb-10 max-w-4xl mx-auto leading-relaxed px-2">
-              Deep dives into politics, business, culture, and the digital age. Fresh insights on the topics shaping our
-              world.
-            </p>
+      <section
+        className="section-pad"
+        style={{
+          background: "linear-gradient(180deg, var(--bg-card) 0%, var(--bg) 100%)",
+          borderBottom: "1px solid var(--border)",
+        }}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <span className="accent-line" />
+          <h1 className="font-display-black text-4xl sm:text-5xl lg:text-6xl mb-4" style={{ color: "var(--text-primary)" }}>
+            All Articles
+          </h1>
+          <p className="text-lg max-w-xl" style={{ color: "var(--text-secondary)" }}>
+            Deep-dives, analysis, and insights from Charles Peralo. Every story designed to actually teach you something.
+          </p>
 
-            <div className="flex flex-wrap justify-center gap-4 sm:gap-8 text-xs sm:text-sm text-slate-600 dark:text-slate-400">
-              <div className="flex items-center gap-2">
-                <TrendingUp className="w-4 h-4" />
-                <span>{loading ? '...' : allArticles.length} articles</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Calendar className="w-4 h-4" />
-                <span>Updated daily</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Search and Filters */}
-      <section className="py-8 sm:py-12 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 overflow-hidden">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 items-start lg:items-center justify-between">
-            {/* Search */}
-            <div className="relative flex-1 max-w-md w-full">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
-              <Input
-                type="text"
-                placeholder="Search articles..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 h-12 rounded-xl border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-blue-500"
-              />
-            </div>
-
-            {/* Category Filters */}
-            <div className="flex flex-wrap gap-2 sm:gap-3">
-              {categories.map((category) => (
-                <Button
-                  key={category}
-                  variant={selectedCategory === category ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setSelectedCategory(category)}
-                  className={`rounded-full text-xs sm:text-sm ${
-                    selectedCategory === category
-                      ? "bg-blue-600 hover:bg-blue-700 text-white"
-                      : "bg-transparent hover:bg-slate-50"
-                  }`}
-                >
-                  {category}
-                </Button>
-              ))}
-            </div>
-          </div>
-
-          {/* Results count */}
-          <div className="mt-4 sm:mt-6 text-sm text-slate-600 dark:text-slate-400">
-            Showing {displayedArticles.length} of {filteredArticles.length} articles
-            {selectedCategory !== "All" && ` in ${selectedCategory}`}
-            {searchTerm && ` matching "${searchTerm}"`}
-          </div>
-        </div>
-      </section>
-
-      {/* Articles Grid */}
-      <section className="py-12 sm:py-20 bg-white dark:bg-slate-900 overflow-hidden">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          {loading && (
-            <div className="text-center py-12">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-              <p className="text-slate-600 dark:text-slate-400 mt-4">Loading articles...</p>
-            </div>
-          )}
-
-          {!loading && displayedArticles.length === 0 ? (
-            <div className="text-center py-12 sm:py-16">
-              <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-4">No articles found</h3>
-              <p className="text-slate-600 dark:text-slate-400 mb-6 sm:mb-8">Try adjusting your search or filter criteria</p>
-              <Button
-                onClick={() => {
-                  setSearchTerm("")
-                  setSelectedCategory("All")
+          {/* Category pills */}
+          <div className="flex flex-wrap gap-2 mt-10">
+            {categories.map((cat) => (
+              <Link
+                key={cat}
+                href={cat === "All" ? "/articles" : `/category/${cat.toLowerCase()}`}
+                className="tag touch transition-all duration-200"
+                style={{
+                  background: cat === "All" ? "var(--accent-dim)" : "var(--bg-elevated)",
+                  borderColor: cat === "All" ? "rgba(59,130,246,0.4)" : "var(--border-bright)",
+                  color: cat === "All" ? "#93c5fd" : "var(--text-secondary)",
                 }}
-                variant="outline"
-                className="bg-transparent"
               >
-                Clear Filters
-              </Button>
+                {cat}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Articles */}
+      <section className="section-pad">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          {articles.length === 0 ? (
+            <div className="text-center py-20" style={{ color: "var(--text-muted)" }}>
+              No articles found.
             </div>
-          ) : !loading && (
+          ) : (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                {displayedArticles.map((article) => (
-                  <Link key={article.slug} href={`/article/${article.slug}`}>
-                    <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 border-0 rounded-2xl group cursor-pointer bg-white dark:bg-slate-800">
-                      <div className="relative">
-                        <Image
-                          src="/placeholder.svg?height=300&width=400"
-                          alt={article.title}
-                          width={400}
-                          height={300}
-                          className="w-full h-40 sm:h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                        <div className="absolute top-3 sm:top-4 left-3 sm:left-4 flex gap-2">
-                          <Badge
-                            className={`font-semibold px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm ${
-                              article.category === "Politics"
-                                ? "bg-red-100 text-red-700"
-                                : article.category === "Business"
-                                  ? "bg-blue-100 text-blue-700"
-                                  : article.category === "Culture"
-                                    ? "bg-purple-100 text-purple-700"
-                                    : "bg-green-100 text-green-700"
-                            }`}
-                          >
-                            {article.category}
-                          </Badge>
-                        </div>
+              {/* Hero article */}
+              <Link href={`/article/${articles[0].slug}`} className="block mb-8 group">
+                <div
+                  className="rounded-2xl overflow-hidden grid lg:grid-cols-5"
+                  style={{ border: "1px solid var(--border)", background: "var(--bg-card)" }}
+                >
+                  <div className="lg:col-span-2 relative h-60 lg:h-auto">
+                    <div
+                      className="absolute inset-0"
+                      style={{
+                        background: "linear-gradient(135deg, #0d1526 0%, #1a0a2e 100%)",
+                      }}
+                    />
+                    <div
+                      className="absolute inset-0 flex items-center justify-center font-display-black text-8xl lg:text-9xl opacity-5"
+                      style={{ color: "var(--accent)" }}
+                    >
+                      {articles[0].category[0]}
+                    </div>
+                    <span className="absolute top-4 left-4 tag tag-blue">Latest</span>
+                  </div>
+                  <div className="lg:col-span-3 p-8 lg:p-12 flex flex-col justify-center">
+                    <span className="tag tag-red mb-4 self-start">{articles[0].category}</span>
+                    <h2
+                      className="font-display text-2xl lg:text-3xl mb-4 group-hover:text-blue-400 transition-colors"
+                      style={{ color: "var(--text-primary)" }}
+                    >
+                      {articles[0].title}
+                    </h2>
+                    <p className="mb-6 text-sm clamp-3" style={{ color: "var(--text-secondary)", lineHeight: 1.75 }}>
+                      {articles[0].excerpt}
+                    </p>
+                    <div className="flex items-center justify-between text-xs" style={{ color: "var(--text-muted)" }}>
+                      <span>{new Date(articles[0].date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</span>
+                      <span className="flex items-center gap-1">
+                        {articles[0].readTime}
+                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+
+              {/* Grid */}
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {articles.slice(1).map((article) => (
+                  <Link key={article.slug} href={`/article/${article.slug}`} className="block group">
+                    <div className="card-dark h-full flex flex-col">
+                      <div
+                        className="relative h-40 rounded-t-2xl overflow-hidden flex items-center justify-center"
+                        style={{ background: "linear-gradient(135deg, var(--bg-elevated) 0%, #0d1526 100%)" }}
+                      >
+                        <span
+                          className="font-display-black text-7xl opacity-10"
+                          style={{ color: "var(--accent)" }}
+                        >
+                          {article.category[0]}
+                        </span>
+                        <span className="absolute top-3 left-3 tag">{article.category}</span>
                       </div>
-                      <CardContent className="p-4 sm:p-6">
-                        <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-2 sm:mb-3 line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200 text-responsive">
+                      <div className="p-5 flex flex-col flex-1">
+                        <h3
+                          className="font-display text-lg mb-2 clamp-2 group-hover:text-blue-400 transition-colors flex-1"
+                          style={{ color: "var(--text-primary)" }}
+                        >
                           {article.title}
                         </h3>
-                        <p className="text-slate-600 dark:text-slate-300 text-sm mb-3 sm:mb-4 line-clamp-3 leading-relaxed">
+                        <p className="text-sm clamp-2 mb-4" style={{ color: "var(--text-secondary)", lineHeight: 1.6 }}>
                           {article.excerpt}
                         </p>
-                        <div className="flex items-center justify-between text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-                          <div className="flex items-center gap-3 sm:gap-4">
-                            <div className="flex items-center gap-1">
-                              <Calendar className="w-3 sm:w-4 h-3 sm:h-4" />
-                              <span>{new Date(article.date).toLocaleDateString()}</span>
-                            </div>
-                            <div className="flex items-center gap-1">
-                              <Clock className="w-3 sm:w-4 h-3 sm:h-4" />
-                              <span>{article.readTime}</span>
-                            </div>
-                          </div>
+                        <div className="flex items-center justify-between text-xs" style={{ color: "var(--text-muted)" }}>
+                          <span>{new Date(article.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
+                          <span>{article.readTime}</span>
                         </div>
-                      </CardContent>
-                    </Card>
+                      </div>
+                    </div>
                   </Link>
                 ))}
               </div>
-
-              {/* Load More Button */}
-              {hasMoreArticles && (
-                <div className="text-center mt-12 sm:mt-16">
-                  <Button
-                    onClick={loadMoreArticles}
-                    variant="outline"
-                    size="lg"
-                    className="px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-xl border-2 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-200 bg-transparent"
-                  >
-                    Load More Articles
-                  </Button>
-                </div>
-              )}
             </>
           )}
-        </div>
-      </section>
-
-      {/* Newsletter CTA */}
-      <section className="py-12 sm:py-20 bg-blue-600 overflow-hidden">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4 sm:mb-6 text-responsive">
-            Never Miss an Article
-          </h2>
-          <p className="text-lg sm:text-xl text-blue-100 mb-6 sm:mb-8 px-2">
-            Get the latest articles delivered to your inbox as soon as they're published
-          </p>
-          <Link href="/subscribe">
-            <Button className="bg-white text-blue-600 hover:bg-blue-50 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-200 text-base sm:text-lg">
-              Subscribe to Newsletter
-            </Button>
-          </Link>
-          <p className="text-xs sm:text-sm text-blue-200 mt-4">Free forever • No spam</p>
         </div>
       </section>
     </div>
