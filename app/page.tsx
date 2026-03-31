@@ -19,104 +19,119 @@ export default function HomePage() {
   return (
     <div style={{ background: "var(--bg)" }}>
 
-      {/* ══ MAGAZINE COVER HERO ══ */}
+      {/* ══ HERO — SUBSCRIBE FIRST ══ */}
       <section
         className="relative overflow-hidden"
-        style={{ minHeight: "100svh", background: "var(--bg)" }}
+        style={{ minHeight: "100svh", display: "flex", alignItems: "center", background: "var(--bg)" }}
       >
-        {/* Full bleed photo right */}
-        <div className="absolute right-0 top-0 bottom-0 z-0" style={{ width: "55%", left: "45%" }}>
-          <Image
-            src="/images/charles-peralo.png"
-            alt="Charles Peralo"
-            fill
-            className="object-cover object-top"
-            priority
-          />
-          {/* Gradient blends */}
-          <div className="absolute inset-0" style={{ background: "linear-gradient(to right, var(--bg) 0%, transparent 30%)" }} />
-          <div className="absolute inset-0" style={{ background: "linear-gradient(to top, var(--bg) 0%, transparent 25%)" }} />
+        {/* Ambient glow */}
+        <div className="absolute inset-0 pointer-events-none z-0">
+          <div className="absolute top-0 right-0 w-full h-full" style={{ background: "radial-gradient(ellipse 70% 70% at 80% 40%, rgba(59,130,246,0.07) 0%, transparent 70%)" }} />
+          <div className="absolute bottom-0 left-0" style={{ width: "50%", height: "50%", background: "radial-gradient(ellipse 80% 80% at 20% 80%, rgba(139,92,246,0.05) 0%, transparent 70%)" }} />
+        </div>
+
+        {/* Charles — subtle right side */}
+        <div className="hidden xl:block absolute right-0 top-0 bottom-0 z-0" style={{ width: "38%" }}>
+          <Image src="/images/charles-peralo.png" alt="Charles Peralo" fill className="object-cover object-top" priority />
+          <div className="absolute inset-0" style={{ background: "linear-gradient(to right, var(--bg) 0%, rgba(13,13,20,0.5) 50%, transparent 100%)" }} />
+          <div className="absolute inset-0" style={{ background: "linear-gradient(to top, var(--bg) 0%, transparent 30%)" }} />
           <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, var(--bg) 0%, transparent 15%)" }} />
         </div>
 
-        {/* Mobile: dim photo bg */}
-        <div className="lg:hidden absolute inset-0 z-0">
-          <Image src="/images/charles-peralo.png" alt="" fill className="object-cover object-top opacity-[0.08]" priority />
-          <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, var(--bg) 0%, rgba(13,13,20,0.7) 50%, var(--bg) 100%)" }} />
+        {/* Mobile bg */}
+        <div className="xl:hidden absolute inset-0 z-0">
+          <Image src="/images/charles-peralo.png" alt="" fill className="object-cover object-top opacity-[0.06]" priority />
         </div>
 
-        {/* Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center" style={{ minHeight: "100svh", paddingTop: "6rem", paddingBottom: "4rem" }}>
-          {/* Issue line */}
-          <div className="flex items-center gap-4 mb-10">
-            <span className="issue-badge">Daily Edition</span>
-            <span className="text-xs" style={{ color: "var(--text-muted)" }}>charlesperalo.com</span>
-          </div>
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" style={{ paddingTop: "7rem", paddingBottom: "5rem" }}>
+          <div className="max-w-2xl">
 
-          {/* Headline — editorial split */}
-          <div className="max-w-2xl lg:max-w-xl xl:max-w-2xl">
-            <div className="overline mb-4">Commentary &bull; Analysis &bull; Education</div>
+            {/* Credibility pill */}
+            <div className="flex flex-wrap items-center gap-3 mb-8">
+              <span className="issue-badge">Daily Edition</span>
+              <div className="flex items-center gap-2 text-xs" style={{ color: "var(--text-muted)" }}>
+                <span className="w-1 h-1 rounded-full inline-block" style={{ background: "var(--border-bright)" }} />
+                <span>Trusted by 50K+ readers worldwide</span>
+              </div>
+            </div>
 
-            <h1 className="mb-8" style={{
+            {/* Headline — value prop first */}
+            <h1 className="mb-5 fade-up" style={{
               fontFamily: "var(--font-playfair), Georgia, serif",
               fontWeight: 900,
-              fontSize: "clamp(3.25rem, 7vw, 6.5rem)",
-              lineHeight: 1.0,
-              letterSpacing: "-0.04em",
+              fontSize: "clamp(2.75rem, 6vw, 5.5rem)",
+              lineHeight: 1.05,
+              letterSpacing: "-0.035em",
               color: "var(--text-primary)",
             }}>
-              Clickbait.<br />
-              <span style={{
-                WebkitTextStroke: "1px rgba(255,255,255,0.2)",
-                color: "transparent",
-              }}>Turned</span><br />
-              <span className="grad-blue">Education.</span>
+              Get Smarter<br />
+              Every Morning.<br />
+              <span className="grad-blue">For Free.</span>
             </h1>
 
             <p className="mb-8 max-w-sm" style={{ fontSize: "1.1rem", lineHeight: 1.75, color: "var(--text-secondary)" }}>
-              2 million followers. 2.5 billion views. Charles Peralo makes you smarter while you scroll.
+              Charles Peralo&apos;s daily newsletter turns today&apos;s biggest headlines into something
+              you actually understand — and remember.
             </p>
 
-            {/* CTA row */}
-            <div className="flex flex-col sm:flex-row gap-3 mb-10">
-              <Link href="/subscribe" className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl font-semibold btn-accent lift touch" style={{ fontSize: "0.9rem" }}>
-                Get the Free Briefing <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link href="/articles" className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl font-semibold touch" style={{ fontSize: "0.9rem", background: "var(--bg-elevated)", border: "1px solid var(--border-bright)", color: "var(--text-secondary)" }}>
-                Read the Latest
-              </Link>
-            </div>
+            {/* ━━ THE SUBSCRIBE FORM — DOMINANT ━━ */}
+            <div
+              className="rounded-2xl p-6 sm:p-8 mb-8 relative overflow-hidden"
+              style={{
+                background: "var(--bg-card)",
+                border: "1px solid var(--border-bright)",
+                boxShadow: "0 0 0 1px rgba(59,130,246,0.1), 0 32px 64px rgba(0,0,0,0.4)",
+              }}
+            >
+              {/* Subtle glow inside card */}
+              <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(to right, transparent, rgba(59,130,246,0.5), transparent)" }} />
 
-            {/* Proof line */}
-            <div className="flex items-center gap-4 text-xs" style={{ color: "var(--text-muted)" }}>
-              <span>50K+ subscribers</span>
-              <span style={{ color: "var(--border-bright)" }}>|</span>
-              <span>Free forever</span>
-              <span style={{ color: "var(--border-bright)" }}>|</span>
-              <span>No spam</span>
-            </div>
-          </div>
+              <div className="mb-5">
+                <div className="font-display text-xl sm:text-2xl mb-1.5" style={{ color: "var(--text-primary)" }}>
+                  Join the Daily Briefing
+                </div>
+                <p className="text-sm" style={{ color: "var(--text-muted)" }}>
+                  Free. Delivered every morning. Unsubscribe anytime.
+                </p>
+              </div>
 
-          {/* Bottom left: floating stats */}
-          <div className="absolute bottom-8 left-4 sm:left-8 hidden lg:flex items-center gap-6">
-            {[
-              { value: "2M+", label: "Followers" },
-              { value: "2.5B", label: "Views" },
-              { value: "50K+", label: "Readers" },
-            ].map((s, i) => (
-              <div key={s.label} className="flex items-center gap-6">
-                {i > 0 && <div className="v-rule" style={{ height: "2rem" }} />}
-                <div>
-                  <div className="font-display font-black text-lg grad-blue" style={{ lineHeight: 1 }}>{s.value}</div>
-                  <div className="text-xs mt-0.5" style={{ color: "var(--text-muted)" }}>{s.label}</div>
+              <NewsletterForm variant="hero" />
+
+              {/* What you get */}
+              <div className="mt-6 pt-5" style={{ borderTop: "1px solid var(--border)" }}>
+                <div className="text-xs mb-3 font-semibold tracking-wider uppercase" style={{ color: "var(--text-muted)" }}>
+                  What&apos;s inside every edition
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  {["Politics", "Business", "Culture", "Personal Growth"].map((item) => (
+                    <div key={item} className="flex items-center gap-1.5 text-xs" style={{ color: "var(--text-secondary)" }}>
+                      <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: "var(--accent)" }} />
+                      {item}
+                    </div>
+                  ))}
                 </div>
               </div>
-            ))}
+            </div>
+
+            {/* Stats row */}
+            <div className="flex flex-wrap gap-x-8 gap-y-3">
+              {[
+                { value: "50K+", label: "Subscribers" },
+                { value: "2M+", label: "Followers" },
+                { value: "2.5B", label: "Views" },
+              ].map((s, i) => (
+                <div key={s.label} className="flex items-center gap-2">
+                  {i > 0 && <div style={{ width: "1px", height: "1rem", background: "var(--border-bright)" }} />}
+                  <span className="font-display font-black text-sm grad-blue">{s.value}</span>
+                  <span className="text-xs" style={{ color: "var(--text-muted)" }}>{s.label}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ══ TICKER ══ */}
+            {/* ══ TICKER ══ */}
       <div
         className="ticker-wrap py-3 border-y"
         style={{ background: "var(--bg-card)", borderColor: "var(--border)" }}
