@@ -14,10 +14,10 @@ const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfa
 
 export const metadata: Metadata = {
   title: "Charles Peralo - Daily Insights That Actually Matter",
-  description: "2M+ followers. 2.5B views. Charles Peralo turns clickbait headlines into educational content. Join 50K+ informed readers — free daily newsletter.",
+  description: "2M+ followers. 2.5B views. Charles Peralo turns clickbait headlines into educational content. Join 50K+ informed readers for free.",
   openGraph: {
     title: "Charles Peralo - Daily Insights That Actually Matter",
-    description: "2M+ followers. 2.5B views. Turning clickbait into education. Free daily newsletter.",
+    description: "2M+ followers. 2.5B views. Turning clickbait into education.",
     url: "https://charlesperalo.com",
     siteName: "Charles Peralo",
     locale: "en_US",
@@ -35,9 +35,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${playfair.variable} font-sans`} suppressHydrationWarning>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange={false} storageKey="charles-peralo-theme">
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange={false} storageKey="charles-peralo-theme">
           <SearchProvider>
             <Header />
             <main className="pt-16 sm:pt-20">{children}</main>

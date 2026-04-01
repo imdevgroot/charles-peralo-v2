@@ -17,10 +17,7 @@ export function ReadingProgress() {
   }, [])
 
   return (
-    <div
-      className="fixed top-0 left-0 right-0 z-[60] h-0.5 pointer-events-none"
-      style={{ background: "var(--border)" }}
-    >
+    <div className="fixed top-0 left-0 right-0 z-50 h-0.5" style={{ background: "rgba(255,255,255,0.04)" }}>
       <div
         className="h-full transition-all duration-100"
         style={{

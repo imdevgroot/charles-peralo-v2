@@ -474,6 +474,46 @@ export default function HomePage() {
         </div>
       </section>
 
+
+      {/* ══ TESTIMONIALS ══ */}
+      <section className="py-14 overflow-hidden" style={{ background: "var(--bg-card)", borderBottom: "1px solid var(--border)" }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+          <div className="overline mb-2">Social Proof</div>
+          <h2 className="section-headline" style={{ color: "var(--text-primary)" }}>What Readers Say</h2>
+        </div>
+        <div className="ticker-wrap py-2">
+          <div className="ticker-track" style={{ animationDuration: "40s" }}>
+            {[
+              { handle: "@mike_reads", text: "This is literally the only newsletter I open every single morning. No fluff, just facts." },
+              { handle: "@sarah_j", text: "Charles has a gift for making me care about things I never thought I would. Politics actually makes sense now." },
+              { handle: "@devtom99", text: "2.5 billion views for a reason. The man knows how to explain things." },
+              { handle: "@thepoliticnerve", text: "I have learned more from Charles Peralo than from 4 years of following the news." },
+              { handle: "@real_kim", text: "Subscribed in 2 minutes, been reading for 6 months. Changed how I see the world." },
+              { handle: "@marcus_daily", text: "Genuinely the best free newsletter on the internet. Not even close." },
+              { handle: "@mike_reads", text: "This is literally the only newsletter I open every single morning. No fluff, just facts." },
+              { handle: "@sarah_j", text: "Charles has a gift for making me care about things I never thought I would. Politics actually makes sense now." },
+              { handle: "@devtom99", text: "2.5 billion views for a reason. The man knows how to explain things." },
+              { handle: "@thepoliticnerve", text: "I have learned more from Charles Peralo than from 4 years of following the news." },
+              { handle: "@real_kim", text: "Subscribed in 2 minutes, been reading for 6 months. Changed how I see the world." },
+              { handle: "@marcus_daily", text: "Genuinely the best free newsletter on the internet. Not even close." },
+            ].map((t, i) => (
+              <div
+                key={i}
+                className="inline-flex flex-col gap-2 mx-3 p-5 rounded-2xl flex-shrink-0"
+                style={{
+                  width: "300px",
+                  background: "var(--bg-elevated)",
+                  border: "1px solid var(--border-bright)",
+                  verticalAlign: "top",
+                }}
+              >
+                <p className="text-sm" style={{ color: "var(--text-secondary)", lineHeight: 1.6 }}>&ldquo;{t.text}&rdquo;</p>
+                <span className="text-xs font-semibold" style={{ color: "var(--accent)" }}>{t.handle}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
       {/* ══ NEWSLETTER CTA — FULL BLEED ══ */}
       <section
         className="relative overflow-hidden section-pad"

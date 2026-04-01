@@ -1,37 +1,37 @@
 ﻿"use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useState, useEffect, useRef } from "react"
 
-interface AnimatedCounterProps {
-  target: string
-  className?: string
+interface Props {
+  end: string
+  duration?: number
 }
 
-export function AnimatedCounter({ target, className = "" }: AnimatedCounterProps) {
+export function AnimatedCounter({ end, duration = 1800 }: Props) {
   const [display, setDisplay] = useState("0")
   const ref = useRef<HTMLSpanElement>(null)
   const started = useRef(false)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !started.current) {
+      (entries) => {
+        if (entries[0].isIntersecting && !started.current) {
           started.current = true
           // Parse numeric part
-          const match = target.match(/^([\d.]+)(.*)$/)
-          if (!match) { setDisplay(target); return }
-          const end = parseFloat(match[1])
-          const suffix = match[2]
-          const isDecimal = match[1].includes(".")
-          const duration = 1800
-          const start = performance.now()
+          const suffix = end.replace(/[0-9.]/g, "")
+          const num = parseFloat(end.replace(/[^0-9.]/g, ""))
+          if (isNaN(num)) { setDisplay(end); return }
+          const startTime = performance.now()
           const animate = (now: number) => {
-            const elapsed = now - start
-            const p = Math.min(elapsed / duration, 1)
-            const ease = 1 - Math.pow(1 - p, 3)
-            const current = end * ease
-            setDisplay((isDecimal ? current.toFixed(1) : Math.floor(current).toString()) + suffix)
-            if (p < 1) requestAnimationFrame(animate)
+            const elapsed = now - startTime
+            const fraction = Math.min(elapsed / duration, 1)
+            const eased = 1 - Math.pow(1 - fraction, 3)
+            const current = eased * num
+            const formatted = num >= 10
+              ? Math.round(current).toLocaleString()
+              : current.toFixed(1)
+            setDisplay(formatted + suffix)
+            if (fraction < 1) requestAnimationFrame(animate)
           }
           requestAnimationFrame(animate)
         }
@@ -40,7 +40,7 @@ export function AnimatedCounter({ target, className = "" }: AnimatedCounterProps
     )
     if (ref.current) observer.observe(ref.current)
     return () => observer.disconnect()
-  }, [target])
+  }, [end, duration])
 
-  return <span ref={ref} className={className}>{display}</span>
+  return <span ref={ref}>{display}</span>
 }
