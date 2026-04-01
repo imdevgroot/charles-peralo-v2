@@ -10,7 +10,12 @@ import { SearchModal } from "@/components/search-modal"
 import { StickySubscribeBar } from "@/components/sticky-subscribe-bar"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" })
-const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair", display: "swap", weight: ["400","500","600","700","800","900"] })
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+  display: "swap",
+  weight: ["400","500","600","700","800","900"],
+})
 
 export const metadata: Metadata = {
   title: "Charles Peralo - Daily Insights That Actually Matter",
@@ -37,7 +42,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${playfair.variable} font-sans`} suppressHydrationWarning>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange={false} storageKey="charles-peralo-theme">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem={false}
+          disableTransitionOnChange={false}
+          storageKey="cp-theme"
+        >
           <SearchProvider>
             <Header />
             <main className="pt-16 sm:pt-20">{children}</main>

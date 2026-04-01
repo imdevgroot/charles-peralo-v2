@@ -499,16 +499,18 @@ export default function HomePage() {
             ].map((t, i) => (
               <div
                 key={i}
-                className="inline-flex flex-col gap-2 mx-3 p-5 rounded-2xl flex-shrink-0"
+                className="inline-flex flex-col justify-between mx-3 p-5 rounded-2xl flex-shrink-0"
                 style={{
-                  width: "300px",
+                  width: "280px",
+                  height: "130px",
                   background: "var(--bg-elevated)",
                   border: "1px solid var(--border-bright)",
                   verticalAlign: "top",
+                  overflow: "hidden",
                 }}
               >
-                <p className="text-sm" style={{ color: "var(--text-secondary)", lineHeight: 1.6 }}>&ldquo;{t.text}&rdquo;</p>
-                <span className="text-xs font-semibold" style={{ color: "var(--accent)" }}>{t.handle}</span>
+                <p className="text-sm clamp-3" style={{ color: "var(--text-secondary)", lineHeight: 1.55, overflow: "hidden" }}>&ldquo;{t.text}&rdquo;</p>
+                <span className="text-xs font-semibold mt-2 flex-shrink-0" style={{ color: "var(--accent)" }}>{t.handle}</span>
               </div>
             ))}
           </div>

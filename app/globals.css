@@ -2,6 +2,78 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── DARK MODE (default) ── */
+:root,
+.dark {
+  --bg: #0d0d14;
+  --bg-card: #12121f;
+  --bg-elevated: #1a1a2e;
+  --border: #1e2035;
+  --border-bright: #2a2d4a;
+  --accent: #3b82f6;
+  --accent-hover: #2563eb;
+  --accent-dim: rgba(59,130,246,0.15);
+  --text-primary: #f0f0f8;
+  --text-secondary: #9090b0;
+  --text-muted: #55557a;
+  --red: #ef4444;
+  --red-dim: rgba(239,68,68,0.12);
+
+  --background: 240 10% 5%;
+  --foreground: 240 10% 95%;
+  --card: 240 15% 8%;
+  --card-foreground: 240 10% 95%;
+  --popover: 240 15% 8%;
+  --popover-foreground: 240 10% 95%;
+  --primary: 217 91% 60%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 240 10% 12%;
+  --secondary-foreground: 240 10% 80%;
+  --muted: 240 10% 12%;
+  --muted-foreground: 240 5% 55%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --border-var: 240 15% 14%;
+  --input: 240 15% 14%;
+  --ring: 217 91% 60%;
+  --radius: 0.75rem;
+}
+
+/* ── LIGHT MODE ── */
+.light,
+html:not(.dark) {
+  --bg: #f8f8fc;
+  --bg-card: #ffffff;
+  --bg-elevated: #f0f0f8;
+  --border: #e2e2ee;
+  --border-bright: #c8c8e0;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --accent-dim: rgba(37,99,235,0.1);
+  --text-primary: #0d0d1a;
+  --text-secondary: #4a4a6a;
+  --text-muted: #8888aa;
+  --red: #dc2626;
+  --red-dim: rgba(220,38,38,0.08);
+
+  --background: 240 20% 97%;
+  --foreground: 240 10% 5%;
+  --card: 0 0% 100%;
+  --card-foreground: 240 10% 5%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 10% 5%;
+  --primary: 217 91% 50%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 240 10% 94%;
+  --secondary-foreground: 240 10% 10%;
+  --muted: 240 10% 94%;
+  --muted-foreground: 240 5% 45%;
+  --destructive: 0 84% 50%;
+  --destructive-foreground: 0 0% 100%;
+  --border-var: 240 15% 88%;
+  --input: 240 15% 88%;
+  --ring: 217 91% 50%;
+}
 @layer base {
   :root {
     --bg: #0d0d14;
