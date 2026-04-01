@@ -1,43 +1,32 @@
-"use client"
+﻿"use client"
 
-import { Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
-import { Button } from "@/components/ui/button"
 import { useEffect, useState } from "react"
+import { Moon, Sun } from "lucide-react"
 
 export function ThemeToggle() {
-  const { setTheme, theme } = useTheme()
+  const { setTheme, resolvedTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
+  if (!mounted) return <div className="w-9 h-9" />
 
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  if (!mounted) {
-    return (
-      <Button 
-        variant="ghost" 
-        size="sm" 
-        className="p-3 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all duration-200 focus-visible touch-target"
-      >
-        <div className="w-5 h-5" />
-      </Button>
-    )
-  }
-
+  const isDark = resolvedTheme === "dark"
   return (
-    <Button
-      variant="ghost"
-      size="sm"
-      onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-      className="p-3 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all duration-200 focus-visible touch-target"
+    <button
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+      className="w-9 h-9 flex items-center justify-center rounded-lg touch transition-all duration-200"
+      style={{ color: "var(--text-muted)", border: "1px solid var(--border)" }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.borderColor = "var(--border-bright)"
+        e.currentTarget.style.color = "var(--text-primary)"
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.borderColor = "var(--border)"
+        e.currentTarget.style.color = "var(--text-muted)"
+      }}
+      aria-label="Toggle theme"
     >
-      {theme === "light" ? (
-        <Moon className="w-5 h-5 text-slate-600 dark:text-slate-400" />
-      ) : (
-        <Sun className="w-5 h-5 text-slate-600 dark:text-slate-400" />
-      )}
-      <span className="sr-only">Toggle theme</span>
-    </Button>
+      {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+    </button>
   )
 }

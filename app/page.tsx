@@ -1,6 +1,7 @@
 ﻿import Image from "next/image"
 import Link from "next/link"
-import { ArrowRight, ArrowUpRight, Brain, Clock, Users, Play } from "lucide-react"
+import { ArrowRight, ArrowUpRight, Brain, Clock, Users, Play, Star } from "lucide-react"
+import { AnimatedCounter } from "@/components/animated-counter"
 import { NewsletterForm } from "@/components/newsletter-form"
 import { getAllArticles, getCategoryStats } from "@/lib/articles"
 
@@ -132,10 +133,7 @@ export default function HomePage() {
       </section>
 
             {/* ══ TICKER ══ */}
-      <div
-        className="ticker-wrap py-3 border-y"
-        style={{ background: "var(--bg-card)", borderColor: "var(--border)" }}
-      >
+      <div className="ticker-wrap py-3 border-y" style={{ background: "var(--bg-card)", borderColor: "var(--border)" }}>
         <div className="ticker-track">
           {tickerItems.map((item, i) => (
             <span key={i} className="inline-flex items-center gap-4 px-6 text-xs font-semibold tracking-widest uppercase" style={{ color: "var(--text-muted)" }}>
@@ -145,6 +143,66 @@ export default function HomePage() {
           ))}
         </div>
       </div>
+
+      {/* ══ ANIMATED STATS ══ */}
+      <section style={{ borderBottom: "1px solid var(--border)" }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-10 text-center">
+            {([
+              { target: "2+", label: "Million Followers", prefix: "" },
+              { target: "2.5", label: "Billion Views", prefix: "" },
+              { target: "50+", label: "Thousand Subscribers", prefix: "" },
+              { target: "365", label: "Days of Content", prefix: "" },
+            ] as const).map((stat) => (
+              <div key={stat.label} className="flex flex-col items-center">
+                <div className="stat-num grad-blue">
+                  <AnimatedCounter target={stat.target} />
+                </div>
+                <div className="text-xs mt-1.5 tracking-wider" style={{ color: "var(--text-muted)" }}>{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══ SOCIAL PROOF / TESTIMONIALS ══ */}
+      <section className="py-12 overflow-hidden" style={{ background: "var(--bg-card)", borderBottom: "1px solid var(--border)" }}>
+        <div className="mb-6 text-center">
+          <div className="overline">What Readers Say</div>
+        </div>
+        <div className="ticker-wrap">
+          <div className="ticker-track" style={{ animationDuration: "40s" }}>
+            {([
+              { quote: "The only newsletter I actually open every morning.", handle: "@sarahjm_reads" },
+              { quote: "Charles explains complex politics in a way that actually makes sense.", handle: "@politicnerddave" },
+              { quote: "I learned more from one edition than a week of doom-scrolling.", handle: "@techmom2024" },
+              { quote: "Finally someone who makes business news feel relevant.", handle: "@hustlermark_" },
+              { quote: "Subscribed two weeks ago. Already recommended it to 5 friends.", handle: "@andreaf_nyc" },
+              { quote: "This is what news should feel like. Educational without being preachy.", handle: "@quietreader88" },
+              { quote: "The only newsletter I actually open every morning.", handle: "@sarahjm_reads" },
+              { quote: "Charles explains complex politics in a way that actually makes sense.", handle: "@politicnerddave" },
+              { quote: "I learned more from one edition than a week of doom-scrolling.", handle: "@techmom2024" },
+              { quote: "Finally someone who makes business news feel relevant.", handle: "@hustlermark_" },
+              { quote: "Subscribed two weeks ago. Already recommended it to 5 friends.", handle: "@andreaf_nyc" },
+              { quote: "This is what news should feel like. Educational without being preachy.", handle: "@quietreader88" },
+            ] as const).map((t, i) => (
+              <div
+                key={i}
+                className="inline-flex flex-col gap-2 mx-3 p-4 rounded-xl flex-shrink-0"
+                style={{ background: "var(--bg-elevated)", border: "1px solid var(--border)", width: "260px", verticalAlign: "top" }}
+              >
+                <div className="flex gap-0.5">
+                  {[1,2,3,4,5].map((s) => (
+                    <Star key={s} className="w-3 h-3 fill-current" style={{ color: "#f59e0b" }} />
+                  ))}
+                </div>
+                <p className="text-xs leading-relaxed" style={{ color: "var(--text-secondary)" }}>&ldquo;{t.quote}&rdquo;</p>
+                <span className="text-xs font-semibold" style={{ color: "var(--text-muted)" }}>{t.handle}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* ══ ARTICLES — EDITORIAL LIST + BIG FEATURE ══ */}
       <section className="section-pad" style={{ borderBottom: "1px solid var(--border)" }}>

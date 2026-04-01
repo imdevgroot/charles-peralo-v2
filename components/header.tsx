@@ -5,6 +5,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { useSearch } from "@/contexts/search-context"
 import { Menu, X, Search, ChevronDown } from "lucide-react"
+import { ThemeToggle } from "@/components/theme-toggle"
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -106,6 +107,7 @@ export function Header() {
 
             {/* Desktop actions */}
             <div className="hidden lg:flex items-center gap-3">
+              <ThemeToggle />
               <button
                 onClick={openSearch}
                 aria-label="Search"
@@ -132,6 +134,7 @@ export function Header() {
 
             {/* Mobile actions */}
             <div className="lg:hidden flex items-center gap-2">
+              <ThemeToggle />
               <button
                 onClick={openSearch}
                 aria-label="Search"
