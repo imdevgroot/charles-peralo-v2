@@ -56,9 +56,7 @@ export default function HomePage() {
           <div className="absolute inset-0" style={{ background: "linear-gradient(to top, var(--bg) 0%, transparent 30%)" }} />
           <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, var(--bg) 0%, transparent 15%)" }} />
         </div>
-        <div className="xl:hidden absolute inset-0 z-0">
-          <Image src="/images/charles-peralo.png" alt="" fill className="object-cover object-top opacity-[0.06]" priority />
-        </div>
+
 
         <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" style={{ paddingTop: "7rem", paddingBottom: "5rem" }}>
           <div className="max-w-2xl">
@@ -152,6 +150,64 @@ export default function HomePage() {
         </div>
       </section>
 
+
+      {/* ══ MEET CHARLES ══ */}
+      <section className="section-pad" style={{ background: "var(--bg-card)", borderBottom: "1px solid var(--border)" }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
+            {/* Image */}
+            <div className="relative order-2 md:order-1">
+              <div
+                className="relative rounded-2xl overflow-hidden"
+                style={{ aspectRatio: "4/5", maxWidth: "420px", margin: "0 auto", border: "1px solid var(--border-bright)" }}
+              >
+                <Image
+                  src="/images/charles-peralo.png"
+                  alt="Charles Peralo"
+                  fill
+                  className="object-cover object-top"
+                />
+                <div className="absolute inset-0" style={{ background: "linear-gradient(to top, var(--bg-card) 0%, transparent 40%)" }} />
+                <div className="absolute bottom-0 left-0 right-0 p-5">
+                  <div className="flex gap-2 flex-wrap">
+                    {["Politics", "Business", "Culture", "Personal"].map((tag) => (
+                      <span key={tag} className="px-3 py-1 rounded-full text-xs font-semibold" style={{ background: "var(--accent-dim)", color: "var(--accent)", border: "1px solid rgba(59,130,246,0.2)" }}>{tag}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* Text */}
+            <div className="order-1 md:order-2">
+              <div className="overline mb-3">The Creator</div>
+              <h2 className="section-headline mb-5" style={{ color: "var(--text-primary)" }}>
+                Meet<br />Charles Peralo
+              </h2>
+              <p className="mb-4" style={{ fontSize: "1.05rem", color: "var(--text-secondary)", lineHeight: 1.85 }}>
+                Charles started making content to answer one question: why does the news make everything so confusing? He turned that frustration into a mission — breaking down the biggest stories in politics, business, and culture so anyone can actually understand them.
+              </p>
+              <p className="mb-8" style={{ fontSize: "1.05rem", color: "var(--text-secondary)", lineHeight: 1.85 }}>
+                2 million followers and 2.5 billion views later, his daily newsletter has become the go-to briefing for people who want to stay informed without the noise.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 mb-8">
+                {[
+                  { value: "2M+", label: "Followers" },
+                  { value: "2.5B", label: "Total Views" },
+                  { value: "50K+", label: "Daily Readers" },
+                ].map((stat, i) => (
+                  <div key={stat.label} className="flex-1 text-center py-4 px-3 rounded-xl" style={{ background: "var(--bg-elevated)", border: "1px solid var(--border)" }}>
+                    <div className="font-display font-black text-2xl grad-blue">{stat.value}</div>
+                    <div className="text-xs mt-1" style={{ color: "var(--text-muted)" }}>{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+              <Link href="/about" className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl text-sm font-semibold btn-accent touch">
+                Full Story <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
       {/* ══ TESTIMONIALS ══ */}
       <section className="py-12 overflow-hidden" style={{ background: "var(--bg-card)", borderBottom: "1px solid var(--border)" }}>
         <div className="mb-8 text-center">
