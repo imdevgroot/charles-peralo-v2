@@ -155,34 +155,29 @@ export default function HomePage() {
       <section className="section-pad" style={{ background: "var(--bg-card)", borderBottom: "1px solid var(--border)" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
-            {/* Image */}
-            <div className="relative order-2 md:order-1">
-              <div
-                className="relative rounded-2xl overflow-hidden"
-                style={{ aspectRatio: "4/5", maxWidth: "420px", margin: "0 auto", border: "1px solid var(--border-bright)" }}
-              >
-                <Image
-                  src="/images/charles-peralo.png"
-                  alt="Charles Peralo"
-                  fill
-                  className="object-cover object-top"
-                />
-                <div className="absolute inset-0" style={{ background: "linear-gradient(to top, var(--bg-card) 0%, transparent 40%)" }} />
-                <div className="absolute bottom-0 left-0 right-0 p-5">
-                  <div className="flex gap-2 flex-wrap">
-                    {["Politics", "Business", "Culture", "Personal"].map((tag) => (
-                      <span key={tag} className="px-3 py-1 rounded-full text-xs font-semibold" style={{ background: "var(--accent-dim)", color: "var(--accent)", border: "1px solid rgba(59,130,246,0.2)" }}>{tag}</span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* Text */}
+
+            {/* Text column — heading always first on mobile */}
             <div className="order-1 md:order-2">
               <div className="overline mb-3">The Creator</div>
               <h2 className="section-headline mb-5" style={{ color: "var(--text-primary)" }}>
                 Meet<br />Charles Peralo
               </h2>
+
+              {/* Photo — mobile only, right under heading */}
+              <div className="block md:hidden mb-8">
+                <div className="relative rounded-2xl overflow-hidden" style={{ aspectRatio: "4/5", maxWidth: "360px", margin: "0 auto", border: "1px solid var(--border-bright)" }}>
+                  <Image src="/images/charles-peralo.png" alt="Charles Peralo" fill className="object-cover object-top" />
+                  <div className="absolute inset-0" style={{ background: "linear-gradient(to top, var(--bg-card) 0%, transparent 40%)" }} />
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <div className="flex gap-2 flex-wrap">
+                      {["Politics", "Business", "Culture", "Personal"].map((tag) => (
+                        <span key={tag} className="px-3 py-1 rounded-full text-xs font-semibold" style={{ background: "var(--accent-dim)", color: "var(--accent)", border: "1px solid rgba(59,130,246,0.2)" }}>{tag}</span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <p className="mb-4" style={{ fontSize: "1.05rem", color: "var(--text-secondary)", lineHeight: 1.85 }}>
                 Charles started making content to answer one question: why does the news make everything so confusing? He turned that frustration into a mission — breaking down the biggest stories in politics, business, and culture so anyone can actually understand them.
               </p>
@@ -194,7 +189,7 @@ export default function HomePage() {
                   { value: "2M+", label: "Followers" },
                   { value: "2.5B", label: "Total Views" },
                   { value: "50K+", label: "Daily Readers" },
-                ].map((stat, i) => (
+                ].map((stat) => (
                   <div key={stat.label} className="flex-1 text-center py-4 px-3 rounded-xl" style={{ background: "var(--bg-elevated)", border: "1px solid var(--border)" }}>
                     <div className="font-display font-black text-2xl grad-blue">{stat.value}</div>
                     <div className="text-xs mt-1" style={{ color: "var(--text-muted)" }}>{stat.label}</div>
@@ -205,10 +200,27 @@ export default function HomePage() {
                 Full Story <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
+
+            {/* Photo — desktop only */}
+            <div className="hidden md:block order-2 md:order-1">
+              <div className="relative rounded-2xl overflow-hidden" style={{ aspectRatio: "4/5", maxWidth: "420px", margin: "0 auto", border: "1px solid var(--border-bright)" }}>
+                <Image src="/images/charles-peralo.png" alt="Charles Peralo" fill className="object-cover object-top" />
+                <div className="absolute inset-0" style={{ background: "linear-gradient(to top, var(--bg-card) 0%, transparent 40%)" }} />
+                <div className="absolute bottom-0 left-0 right-0 p-5">
+                  <div className="flex gap-2 flex-wrap">
+                    {["Politics", "Business", "Culture", "Personal"].map((tag) => (
+                      <span key={tag} className="px-3 py-1 rounded-full text-xs font-semibold" style={{ background: "var(--accent-dim)", color: "var(--accent)", border: "1px solid rgba(59,130,246,0.2)" }}>{tag}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
-      {/* ══ TESTIMONIALS ══ */}
+
+{/* ══ TESTIMONIALS ══ */}
       <section className="py-12 overflow-hidden" style={{ background: "var(--bg-card)", borderBottom: "1px solid var(--border)" }}>
         <div className="mb-8 text-center">
           <div className="overline">What Readers Say</div>
