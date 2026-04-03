@@ -58,7 +58,7 @@ export default function HomePage() {
         </div>
 
 
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" style={{ paddingTop: "7rem", paddingBottom: "5rem" }}>
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" style={{ paddingTop: "clamp(2rem, 8vw, 7rem)", paddingBottom: "4rem" }}>
           <div className="max-w-2xl">
             <div className="flex flex-wrap items-center gap-3 mb-8">
               <span className="issue-badge">Daily Edition</span>
